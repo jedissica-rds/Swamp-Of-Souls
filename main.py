@@ -26,7 +26,7 @@ pygame.display.set_caption("Swamp of Souls")
 # Função principal
 def main():
     # Inicializar o menu
-    menu_screen = SwampOfSoulsScreen()  # Passa a tela para o menu
+    '''menu_screen = SwampOfSoulsScreen()  # Passa a tela para o menu
     menu_screen.run()  # Executa o menu
 
     history = HistoryScreen()
@@ -59,7 +59,7 @@ def main():
     level_screen.run()
 
     game_screen = Interval4Screen()
-    game_screen.run()
+    game_screen.run()'''
 
     level_screen = LevelFourScreen()
     level_screen.run()

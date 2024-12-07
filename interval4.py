@@ -1,5 +1,5 @@
 import time
-
+import constants
 import pygame
 import player as player_mod
 
@@ -8,8 +8,7 @@ pygame.init()
 # Clock
 clock = pygame.time.Clock()
 FPS = 60
-WIDTH, HEIGHT = 1320, 680
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((constants.WIDTH, constants.HEIGHT))
 pygame.display.set_caption("Swamp of Souls")
 
 frame1 = pygame.transform.scale(pygame.image.load('assets/backgrounds/FASE 4.png').convert_alpha(),(1320,680))
@@ -54,7 +53,7 @@ class Interval4Screen:
 
     def darken_screen(self):
         if self.opacity > 0:
-            dark_overlay = pygame.Surface((WIDTH, HEIGHT))
+            dark_overlay = pygame.Surface((constants.WIDTH, constants.HEIGHT))
             dark_overlay.set_alpha(self.opacity)
             dark_overlay.fill(self.BLACK)
             screen.blit(dark_overlay, (0, 0))
@@ -68,18 +67,18 @@ class Interval4Screen:
 
         # Draw the tip
         tip_text = self.small_font.render(f'Estou começando a lembrar, essa ponte...', True, self.WHITE)
-        screen.blit(tip_text, (50, HEIGHT - 60))
+        screen.blit(tip_text, (50, constants.HEIGHT - 60))
 
-        if self.player_position[0] > WIDTH - 300:
+        if self.player_position[0] > constants.WIDTH - 300:
             press_e_text = self.x_small_font.render(f'Pressione E', True, self.WHITE)
-            screen.blit(press_e_text, (WIDTH - 100, HEIGHT - 300))
+            screen.blit(press_e_text, (constants.WIDTH - 100, constants.HEIGHT - 300))
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
             if event.type == pygame.KEYDOWN:
-                if event.unicode.upper() == 'E' and self.player_position[0] > WIDTH - 230:
+                if event.unicode.upper() == 'E' and self.player_position[0] > constants.WIDTH - 230:
                     self.click_sound.play()
                     self.show_frames_screen()
                     return False
@@ -89,7 +88,7 @@ class Interval4Screen:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
             self.player.orientation = 'Right'
-            if self.player_position[0] < WIDTH - 200:
+            if self.player_position[0] < constants.WIDTH - 200:
                 self.player_position[0] += 3
             self.player.animate()
         elif keys[pygame.K_LEFT]:

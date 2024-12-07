@@ -1,7 +1,7 @@
 import time
 import pygame
 import player as player_mod
-from menu_class import click_sound
+import constants
 
 # Initializing Pygame
 pygame.init()
@@ -10,18 +10,7 @@ pygame.init()
 clock = pygame.time.Clock()
 FPS = 60
 
-# Colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-YELLOW = (255, 255, 0)
-
-# Defining fonts
-small_font = pygame.font.Font("assets/IMFellEnglish-Regular.ttf", 24)
-x_small_font = pygame.font.Font("assets/IMFellEnglish-Regular.ttf", 16)
-
-# Screen dimensions
-WIDTH, HEIGHT = 1320, 680
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((constants.WIDTH, constants.HEIGHT))
 pygame.display.set_caption("Swamp of Souls")
 
 frame1 = pygame.transform.scale(pygame.image.load('assets/backgrounds/FASE 3.png').convert_alpha(),(1320,680))
@@ -45,8 +34,9 @@ class Interval3Screen:
         self.background_sound.play()
 
         # thorns
-        self.thorns = pygame.transform.scale(pygame.image.load('assets/Group 29 (1).png').convert_alpha(), (280, 280))
-        self.thorns_positions = [WIDTH + 100, HEIGHT - 350]
+        self.thorns = pygame.transform.scale(pygame.image.load(
+            'assets/Group 29 (1).png').convert_alpha(), (280, 280))
+        self.thorns_positions = [constants.WIDTH + 100, constants.HEIGHT - 350]
 
         # Opacity for fade effect
         self.opacity = 255
@@ -54,9 +44,9 @@ class Interval3Screen:
 
     def darken_screen(self):
         if self.opacity > 0:
-            dark_overlay = pygame.Surface((WIDTH, HEIGHT))
+            dark_overlay = pygame.Surface((constants.WIDTH, constants.HEIGHT))
             dark_overlay.set_alpha(self.opacity)
-            dark_overlay.fill(BLACK)
+            dark_overlay.fill(constants.BLACK)
             screen.blit(dark_overlay, (0, 0))
             self.opacity -= self.fade_speed  # Reduce opacity to create fade-out effect
 
@@ -71,15 +61,15 @@ class Interval3Screen:
                 speed += 0.6
 
     def show_frames_screen(self):
-        screen.fill(WHITE)
+        screen.fill(constants.WHITE)
         screen.blit(frame1, (-10, 0))
         pygame.display.update()
         time.sleep(2)  # Pausa por 2 segundos
-        screen.fill(WHITE)
+        screen.fill(constants.WHITE)
         screen.blit(frame2, (-10, 0))
         pygame.display.update()
         time.sleep(2)
-        screen.fill(WHITE)
+        screen.fill(constants.WHITE)
         screen.blit(frame3, (-10, 0))
         pygame.display.update()
         time.sleep(3)
@@ -88,7 +78,7 @@ class Interval3Screen:
     def run(self):
         running = True
         while running:
-            screen.fill(WHITE)
+            screen.fill(constants.WHITE)
 
             clock.tick(FPS)
 
@@ -108,10 +98,11 @@ class Interval3Screen:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_RIGHT]:
                 self.player.orientation = 'Right'
-                if self.player_position[0] < WIDTH - 300 and self.player_position[0] + 32 < self.thorns_positions[0]:
+                if (self.player_position[0] < constants.WIDTH - 300
+                        and self.player_position[0] + 32 < self.thorns_positions[0]):
                     self.player_position[0] += 4
                 else:
-                    if self.thorns_positions[0] > WIDTH - 240:
+                    if self.thorns_positions[0] > constants.WIDTH - 240:
                         self.scroll += 2
                         self.thorns_positions[0] -= 4
                 self.player.animate()
@@ -138,15 +129,16 @@ class Interval3Screen:
             screen.blit(self.thorns, (self.thorns_positions[0], self.thorns_positions[1]))
 
             if abs((self.player_position[0] + 36) - self.thorns_positions[0]) < 70:
-                press_e_text = x_small_font.render(f'Pressione E', True, WHITE)
+                press_e_text = constants.x_small_font.render(f'Pressione E', True, constants.WHITE)
                 screen.blit(press_e_text, (self.thorns_positions[0] + 120, self.thorns_positions[1] - 60))
-                tip_text = small_font.render(f'Espinhos??!...', True, WHITE)
-                screen.blit(tip_text, (400, HEIGHT - 200))
+                tip_text = constants.small_font.render(f'Espinhos??!...', True, constants.WHITE)
+                screen.blit(tip_text, (400, constants.HEIGHT - 200))
                 pygame.display.update()
 
             # Draw the tip
-            tip_text = small_font.render(f'Isso está muito estranho, e ao mesmo tempo muito familiar...', True, WHITE)
-            screen.blit(tip_text, (50, HEIGHT - 60))
+            tip_text = constants.small_font.render(f'Isso está muito estranho, e ao mesmo tempo muito familiar...',
+                                                   True, constants.WHITE)
+            screen.blit(tip_text, (50, constants.HEIGHT - 60))
 
             self.darken_screen()
             pygame.display.update()

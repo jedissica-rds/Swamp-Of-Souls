@@ -1,5 +1,5 @@
 import sys
-
+import constants
 import pygame
 import player as player_mod
 
@@ -10,19 +10,7 @@ pygame.init()
 clock = pygame.time.Clock()
 FPS = 60
 
-# Colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-YELLOW = (255, 255, 0)
-GREY = (168, 168, 168)
-
-# Defining fonts
-small_font = pygame.font.Font("assets/IMFellEnglish-Regular.ttf", 24)
-x_small_font = pygame.font.Font("assets/IMFellEnglish-Regular.ttf", 16)
-
-# Screen dimensions
-WIDTH, HEIGHT = 1320, 680
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((constants.WIDTH, constants.HEIGHT))
 pygame.display.set_caption("Swamp of Souls")
 background_sound = pygame.mixer.Sound('assets/Alone at Twilight 5.wav')
 background_sound.set_volume(0.5)
@@ -46,15 +34,16 @@ class Interval2Screen:
         self.background_sound.set_volume(0.5)  # Define o volume para 50%
         self.background_sound.play()
 
-        self.animal_foot = pygame.transform.scale(pygame.image.load('./assets/objects/Animal Footstep.png').convert_alpha(), (60, 60))
-        self.foot_positions = [WIDTH - 10, HEIGHT - 100]
+        self.animal_foot = pygame.transform.scale(pygame.image.load(
+            './assets/objects/Animal Footstep.png').convert_alpha(), (60, 60))
+        self.foot_positions = [constants.WIDTH - 10, constants.HEIGHT - 100]
 
         self.opacity = 255
 
     def darken_screen(self):
-        dark_overlay = pygame.Surface((WIDTH, HEIGHT))
+        dark_overlay = pygame.Surface((constants.WIDTH, constants.HEIGHT))
         dark_overlay.set_alpha(self.opacity)
-        dark_overlay.fill(BLACK)
+        dark_overlay.fill(constants.BLACK)
         screen.blit(dark_overlay, (0, 0))
 
     def drawBackground(self):
@@ -70,7 +59,7 @@ class Interval2Screen:
     def run(self):
             running = True
             while running:
-                screen.fill(WHITE)
+                screen.fill(constants.WHITE)
 
                 clock.tick(FPS)
 
@@ -92,7 +81,7 @@ class Interval2Screen:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_RIGHT]:
                     self.player.orientation = 'Right'
-                    if self.player_position[0] < WIDTH - 300:
+                    if self.player_position[0] < constants.WIDTH - 300:
                         self.player_position[0] += 4
                     else:
                         self.scroll += 2
@@ -121,14 +110,15 @@ class Interval2Screen:
                 screen.blit(self.animal_foot, (self.foot_positions[0], self.foot_positions[1]))
 
                 if abs((self.player_position[0] + 36) - self.foot_positions[0]) < 70:
-                    press_e_text = x_small_font.render(f'Pressione E', True, WHITE)
-                    screen.blit(press_e_text, (self.foot_positions[0] + 10 , HEIGHT - 35))
-                    tip_text = small_font.render(f"Oh...? Pegadas de um animal...", True, WHITE)
-                    screen.blit(tip_text, (400, HEIGHT - 200))
+                    press_e_text = constants.x_small_font.render(f'Pressione E', True, constants.WHITE)
+                    screen.blit(press_e_text, (self.foot_positions[0] + 10 , constants.HEIGHT - 35))
+                    tip_text = constants.small_font.render(f"Oh...? Pegadas de um animal...", True, constants.WHITE)
+                    screen.blit(tip_text, (400, constants.HEIGHT - 200))
 
 
                 # Draw the tip
-                tip_text = small_font.render(f'Agora está mais claro, mas ainda preciso achar uma saída...', True, WHITE)
-                screen.blit(tip_text, (50, HEIGHT - 60))
+                tip_text = constants.small_font.render(f'Agora está mais claro, mas ainda preciso achar uma saída...',
+                                                       True, constants.WHITE)
+                screen.blit(tip_text, (50, constants.HEIGHT - 60))
                 self.darken_screen()
                 pygame.display.update()
