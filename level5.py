@@ -5,6 +5,7 @@ import player as player_mod
 import random
 import constants as constant
 import level
+from constants import *
 
 # Configurações da janela
 pygame.init()
@@ -51,8 +52,8 @@ frame5 = pygame.transform.scale(pygame.image.load('assets/backgrounds/FASE 5 - P
 
 
 class LevelFiveOnScreen(level.Level):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, WIDTH, HEIGHT, max_sanity, cor_texto=WHITE):
+        super().__init__(WIDTH, HEIGHT, max_sanity, cor_texto=WHITE)
         self.current_phrase_index = 0
         self.typed_text = ""
         self.errors = 0
@@ -209,6 +210,9 @@ class LevelFiveOnScreen(level.Level):
                     if self.interval_start_time and time.time() - self.interval_start_time < self.interval_duration:
                         continue
                     self.check_typing_accuracy(event)
+
+            self.hud.update_timer()
+            self.hud.text_sanity(screen, 50, 50)
 
             # Desenha a barra de intervalo e exibe a próxima frase após o intervalo
             if self.interval_start_time:

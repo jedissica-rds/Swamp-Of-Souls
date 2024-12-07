@@ -1,6 +1,8 @@
 import pygame
 import constants as constant
 import time
+from HUD import HUD
+from constants import HEIGHT, WIDTH, WHITE
 
 # Initializing Pygame
 pygame.init()
@@ -20,9 +22,29 @@ bg_width = bg_images[0].get_width()
 
 class Level:
 
-    def __init__(self):
+    def __init__(self, WIDTH, HEIGHT, sanidade_maxima, cor_texto=WHITE):
         self.scroll = 0
         self.opacity = 100
+
+        self.hud = HUD(WIDTH, HEIGHT, sanidade_maxima, cor_texto)
+
+    def atualizar(self):
+            # Atualizar atributos do HUD com base no nível
+            self.hud.out_of_the_way = self.scroll / 10
+            if self.hud.out_of_the_way > 100:
+                self.hud.out_of_the_way = 100
+
+            self.hud.errors = int(self.opacity / 20)
+            self.hud.sanidade_atual -= 0.1
+            if self.hud.sanidade_atual < 0:
+                self.hud.sanidade_atual = 0
+
+    def desenhar(self, tela):
+            # Desenha a HUD na tela
+            self.hud.desenhar_barra_sanidade(tela, 50, 50)
+            self.hud.exibir_texto_sanidade(tela, 50, 90)
+            self.hud.exibir_progresso(tela, 180, 30)
+            self.hud.exibir_erros(tela, 180, 70)
 
     def draw_background(self, static_image):
         game_screen.blit(static_image, (0, 0))

@@ -1,7 +1,7 @@
 import pygame
 
 from ComingSoonScreen import ComingSoonScreen
-from menu_class import SwampOfSoulsScreen
+from menu_class import SwampOfSoulsScreen, small_font
 from interval1 import IntervalScreen
 from interval2 import Interval2Screen
 from interval3 import Interval3Screen
@@ -26,9 +26,9 @@ pygame.display.set_caption("Swamp of Souls")
 # Função principal
 def main():
     # Inicializar o menu
-    '''menu_screen = SwampOfSoulsScreen()  # Passa a tela para o menu
+    menu_screen = SwampOfSoulsScreen()  # Passa a tela para o menu
     menu_screen.run()  # Executa o menu
-
+    #
     history = HistoryScreen()
     history.run()
 
@@ -37,7 +37,7 @@ def main():
     game_screen.run()  # Executa o jogo
 
 
-    level_screen = LevelOneScreen()
+    level_screen = LevelOneScreen(WIDTH, HEIGHT, 100, small_font)
     level_screen.run()
 
     game_screen = Interval2Screen()
@@ -46,7 +46,7 @@ def main():
     history = History2Screen()
     history.run()
 
-    level_screen = LevelTwoScreen()
+    level_screen = LevelTwoScreen(WIDTH, HEIGHT, 100, small_font)
     level_screen.run()
 
     history = History22Screen()
@@ -55,16 +55,16 @@ def main():
     game_screen = Interval3Screen()
     game_screen.run()
 
-    level_screen = LevelThreeOnScreen()
+    level_screen = LevelThreeOnScreen(WIDTH, HEIGHT, 100, small_font)
     level_screen.run()
 
     game_screen = Interval4Screen()
-    game_screen.run()'''
+    game_screen.run()
 
-    level_screen = LevelFourScreen()
+    level_screen = LevelFourScreen(WIDTH, HEIGHT, 100, small_font)
     level_screen.run()
 
-    level_screen = LevelFiveOnScreen()
+    level_screen = LevelFiveOnScreen(WIDTH, HEIGHT, 100, small_font)
     level_screen.run()
 
     history_screen = ComingSoonScreen()

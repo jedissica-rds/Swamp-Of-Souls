@@ -2,9 +2,12 @@ import sys
 
 import pygame
 import player as player_mod
+from constants import WHITE
 from interval1 import Firefly
 import constants as constant
 import level
+from interval4 import screen
+
 # Initializing Pygame
 pygame.init()
 
@@ -31,8 +34,8 @@ jar = pygame.transform.scale(pygame.image.load('assets/objects/jar.png').convert
 jar_positions = [constant.WIDTH - 60, constant.HEIGHT - 150]
 
 class LevelOneScreen(level.Level):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, WIDTH, HEIGHT, max_sanity, cor_texto=WHITE):
+        super().__init__(WIDTH, HEIGHT, max_sanity, cor_texto=WHITE)
         self.moving_sprites = pygame.sprite.Group()
         self.player = player_mod.Player(40, 370, "Right")
         self.moving_sprites.add(self.player)
@@ -43,6 +46,10 @@ class LevelOneScreen(level.Level):
         for _ in range(10):
             firefly = Firefly()
             self.fireflies.add(firefly)
+
+    def atualizar(self):
+        # Chama a lógica de atualização da classe mãe
+        super().atualizar()
 
     def run(self):
         running = True
@@ -73,6 +80,9 @@ class LevelOneScreen(level.Level):
                     elif event.key == pygame.K_j:
                         constant.click_sound.play()
                         key_pressed = "J"
+
+            self.hud.update_timer()
+            self.hud.text_sanity(screen, 50, 50)
 
             # Update fireflies and check for "catch" interaction
             caught = False

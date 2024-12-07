@@ -6,6 +6,7 @@ import constants as constant
 import player as player_mod
 from level_3_class import Block
 from level_3_class import Camera
+from constants import WHITE
 
 pygame.init()
 
@@ -34,8 +35,8 @@ margin = 200
 
 class LevelThreeOnScreen(level.Level):
     global margin
-    def __init__(self):
-        super().__init__()
+    def __init__(self, WIDTH, HEIGHT, max_sanity, cor_texto=WHITE):
+        super().__init__(WIDTH, HEIGHT, max_sanity, cor_texto=WHITE)
         self.moving_sprites = pygame.sprite.Group()
         self.player = player_mod.Player(40, 370, "Right")
         self.moving_sprites.add(self.player)
@@ -131,9 +132,8 @@ class LevelThreeOnScreen(level.Level):
                                 block.incorrect = True
                                 break
 
-            if elapsed_time > time_limit:
-                self.out_of_the_way += 5
-                self.start_time = current_time
+            self.hud.update_timer()
+            self.hud.text_sanity(screen, 50, 50)
 
             if abs(self.scroll) > self.bg_width:
                 self.scroll = 0
@@ -142,14 +142,6 @@ class LevelThreeOnScreen(level.Level):
 
             screen.blit(self.player.image, (self.player_position[0], self.player_position[1]))
 
-            score_text = constant.small_font.render(f"Perdida em:  {self.out_of_the_way}%", True, constant.WHITE)
-            screen.blit(score_text, (180, 30))
-
-            erros_text = constant.small_font.render(f"Erros: {self.errors}", True, constant.WHITE)
-            screen.blit(erros_text, (180, 70))
-
-            level_text = constant.small_font.render(f"Level 3", True, constant.WHITE)
-            screen.blit(level_text, (600, 10))
 
             # Exibir tela de Game Over e resetar o jogo se as condições de perda forem atingidas
             if self.out_of_the_way >= 100 or self.errors <= 0:
@@ -158,9 +150,5 @@ class LevelThreeOnScreen(level.Level):
 
             # self.darken_screen()
             self.moving_sprites.update(0.25)
-
-            # Barra de tempo na parte inferior esquerda
-            time_bar_width = int(100 * max(0, (time_limit - elapsed_time) / time_limit))
-            pygame.draw.rect(screen, constant.GRAY, (10, constant.HEIGHT - 90, time_bar_width, 20))  # Barra de tempo
 
             pygame.display.update()

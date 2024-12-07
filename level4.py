@@ -2,6 +2,8 @@ import pygame
 import time
 import math
 import constants as constant
+from constants import *
+from HUD import screen
 from player import Player
 from level import Level
 
@@ -44,11 +46,10 @@ class Plank(pygame.sprite.Sprite):
         self.image = image
         self.rect = self.image.get_rect(topleft=(x, y))
 
-
 # Tela de Nível 4
 class LevelFourScreen(Level):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, WIDTH, HEIGHT, max_sanity, cor_texto=WHITE):
+        super().__init__(WIDTH, HEIGHT, max_sanity, cor_texto=WHITE)
         self.running = True
         self.bg_w = assets["background"].get_width()
         self.tiles = math.ceil(constant.WIDTH / self.bg_w) + 1
@@ -98,13 +99,7 @@ class LevelFourScreen(Level):
             game_screen.blit(letter_surface, (x_position, constant.HEIGHT // 2 - 50))
 
         # Informações do jogador
-        plank_text = constant.small_font.render(f'Tábuas atravessadas: {self.crossed_planks}', True, constant.WHITE)
-        game_screen.blit(plank_text, (180, 30))
-        error_text = constant.small_font.render(f'Erros: {self.errors}/{self.max_errors}', True, constant.BROWN)
-        game_screen.blit(error_text, (180, 60))
-        stability_text = constant.small_font.render(f'Estabilidade da ponte: {self.bridge_stability}%', True,
-                                                    constant.WHITE)
-        game_screen.blit(stability_text, (180, 90))
+        self.hud.exibir_texto_sanidade(screen, 50, 50)
 
         # Imagem da próxima letra
         if self.letter_row:
@@ -184,6 +179,9 @@ class LevelFourScreen(Level):
                         stability_y += 30
                         self.error_time = time.time()
                         assets["sounds"]["bridge"].play()
+
+            self.hud.update_timer()
+            self.hud.text_sanity(screen, 50, 50)
 
             # Penalidade de atraso
             if time.time() - self.start_time > self.time_limit:

@@ -5,6 +5,8 @@ import time
 import level
 import constants as constant
 import player as player_mod
+from constants import WHITE
+from HUD import screen
 
 # Initializing Pygame
 pygame.init()
@@ -39,8 +41,8 @@ game_over_background = pygame.image.load('assets/background/GAMEOVER2.png').conv
 
 
 class LevelTwoScreen(level.Level):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, WIDTH, HEIGHT, max_sanity, cor_texto=WHITE):
+        super().__init__(WIDTH, HEIGHT, max_sanity, cor_texto=WHITE)
         self.running = True
         self.tree_l_x = 0
         self.tree_r_x = constant.WIDTH - 450
@@ -165,6 +167,9 @@ class LevelTwoScreen(level.Level):
                     else:
                         self.error_time = time.time()
                         self.transparency = max(0, self.transparency - 40)
+
+            self.hud.update_timer()
+            self.hud.text_sanity(game_screen, 50, 50)
 
             keys = pygame.key.get_pressed()
             if not any(keys) and not self.player.isAnimating:
