@@ -13,13 +13,13 @@ GREEN = (0, 255, 0)
 BROWN = (123, 63, 0)
 
 # Defining fonts
-normal_font = pygame.font.Font("assets/IMFellEnglish-Regular.ttf", 36)
-small_font = pygame.font.Font("assets/IMFellEnglish-Regular.ttf", 24)
-smallest_font = pygame.font.Font("assets/IMFellEnglish-Regular.ttf", 12)
-x_small_font = pygame.font.Font("assets/IMFellEnglish-Regular.ttf", 16)
+normal_font = pygame.font.Font("assets/font/IMFellEnglish-Regular.ttf", 36)
+small_font = pygame.font.Font("assets/font/IMFellEnglish-Regular.ttf", 24)
+smallest_font = pygame.font.Font("assets/font/IMFellEnglish-Regular.ttf", 12)
+x_small_font = pygame.font.Font("assets/font/IMFellEnglish-Regular.ttf", 16)
 font = pygame.font.Font(None, 100)
 
 # Screen dimensions
 WIDTH, HEIGHT = 1320, 680
 
-click_sound = pygame.mixer.Sound('assets/click-keyboard.mp3')
+click_sound = pygame.mixer.Sound('assets/sounds-effects/click-keyboard.mp3')
